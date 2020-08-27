@@ -1,0 +1,67 @@
+#{extends 'main.html' /} #{set title:'Listagem de Usuário'/}
+<meta charset="utf-8">
+
+<div class="content">
+
+	<div class="card">
+		<div class="card-header">
+			<h4 class="card-title" align="center">Lista de Usuários</h4>
+		</div>
+		#{if flash.success}
+			<div class="alert alert-success">
+				<p>${flash.success.raw()}</p>
+			</div>
+		#{/if}
+		#{if flash.error}
+				<div class="alert alert-danger" align="center">
+					<p>${flash.error.raw()}</p>
+				</div>
+		#{/if}
+		#{else}
+		<div class="card-body">
+		#{if mensagem != null}
+				<div class="alert alert-success">
+					<p>${mensagem}</p>
+				</div>
+			#{/if}
+			<div class="text-center">
+				<table class="table">
+				
+					<thead class=" text-primary">
+						<th>Nome</th>
+						<th>Email</th>
+						<th>Tipo</th>
+						<th>Cadastrado Por</th>
+						<th>Ações</th>						
+					</thead>
+
+					<tbody>	
+					#{list items:usuarios, as:'usuario'}					
+						<tr>
+							<td>${usuario.nome}</td>
+							<td>${usuario.email}</td>
+							<td>${usuario.tipo}</td>
+							<td>${usuario.originador} — ${usuario.idOriginador}</td>
+							<td><a class="btn btn-round-sm btn-primary"
+								href="@{Usuarios.editar(usuario.id)}"
+								title="Editar usuário"> <i
+									class="glyphicon glyphicon-edit"></i>
+							</a> <a class="btn btn-round-sm btn-danger"
+								href="@{Usuarios.remover(usuario.id)}"
+								title="Remover Usuário"> <i
+									class="glyphicon glyphicon-trash"></i>
+							</a></td>
+						</tr>
+						#{/list} #{else}
+							<div class="alert alert-info" align="center"> Nenhum usuário cadastrado </div>
+						#{/else}						
+					</tbody>
+				</table>
+			</div>
+			<a href="@{Usuarios.form}">
+				<button type="button" class="btn btn-primary">Cadastrar</button>
+			</a>
+		</div>
+		#{/else}
+	</div>
+</div>

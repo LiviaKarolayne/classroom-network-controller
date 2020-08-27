@@ -1,0 +1,70 @@
+#{extends 'main.html' /} #{set title:'Listagem de Laboratórios'/}
+<meta charset="utf-8">
+
+<div class="content">
+	<div class="card">
+		<div class="card-header">
+			<h4 class="card-title" align="center">Lista de Laboratório</h4>
+		</div>
+		<div class="card-body">
+			#{if mensagem != null && mensagem != ""}
+				<div class="alert alert-success" align="center">
+					<p>${mensagem}</p>
+				</div>
+			#{/if}
+			#{if  flash.error}
+				<div class="alert alert-danger">
+					<p align="center">${flash.error.raw()}</p>
+				</div>
+			#{/if}	
+			<div class="text-center">				
+				<table class="table">
+					<thead class=" text-primary">
+						<th>Número de identificação</th>
+						<th>Hostname</th>
+						<th>Descrição</th>
+						<th>Ações</th>
+					</thead>
+
+					<tbody>	
+					#{list items:laboratorios, as:'laboratorio'}					
+						<tr>
+							<td>${laboratorio.nome}</td>
+							<td>${laboratorio.ip}</td>
+							<td>${laboratorio.descricao}</td>
+							<td><a class="btn btn-round-sm btn 
+								   #{if laboratorio.ligado} btn-success
+								   #{/if}#{else}btn-default#{/else}" 
+									href="@{Sshs.ligarOuDesligarLab(laboratorio.id)}" 
+									title="Habilitar/desabilitar rede de laboratório">
+								<i class="glyphicon glyphicon-globe"></i> </a> 
+							<a class="btn btn-round-sm btn-primary"
+								href="@{Laboratorios.editar(laboratorio.id)}"
+								title="Editar laboratório"> <i
+									class="glyphicon glyphicon-edit"></i>
+							</a> <a class="btn btn-round-sm btn-danger"
+								href="@{Laboratorios.remover(laboratorio.id)}"								
+									title="Remover laboratório"> <i
+									class="glyphicon glyphicon-trash"></i>
+							</a> <a class="btn btn-round-sm btn btn-default"
+								href="@{Laboratorios.detalharLaboratorio(laboratorio.id)}"
+								title="Detalhar informações de laboratório"> <i
+									class="	glyphicon glyphicon-cog"></i>
+							</a> <a class="btn btn-round-sm btn btn-default"
+								href="@{Laboratorios.detalharSites(laboratorio.id)}"
+								title="Detalhar sites de laboratório"> <i
+									class="glyphicon glyphicon-menu-hamburger"></i>
+							</a></td>
+						</tr>
+						#{/list} #{else}
+							<div class="alert alert-info" align="center"> Nenhum Laboratório Cadastrado </div>
+						#{/else}
+					</tbody>
+				</table>
+			</div>
+			<a href="@{Laboratorios.form}">
+				<button type="button" class="btn btn-primary">Cadastrar</button>
+			</a>
+		</div>
+	</div>
+</div>
